@@ -30,9 +30,11 @@ func (g Generator) Generate(cfg Config) {
 		for i := 0; i < cfg.Count; i++ {
 			go g.generateEvents(cfg.Generators[0].Topic, cfg.Generators[0].Rate, cfg.Generators[0].EventSize)
 		}
+		g.Logger.Info("created generators", zap.Int("count", cfg.Count), zap.String("topic", cfg.Generators[0].Topic))
 	} else {
 		for _, generator := range cfg.Generators {
 			go g.generateEvents(generator.Topic, generator.Rate, generator.EventSize)
+			g.Logger.Info("created generator", zap.String("topic", generator.Topic))
 		}
 	}
 
