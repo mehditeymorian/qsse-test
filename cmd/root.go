@@ -1,25 +1,21 @@
-/*
-Package cmd
-Copyright © 2022 Mehdi Teymorian
-
-*/
 package cmd
 
 import (
-	"os"
-
+	"github.com/mehditeymorian/qsse-test/internal/cmd/serve"
 	"github.com/spf13/cobra"
 )
 
+// Execute is the entry point for the application.
 func Execute() {
-	rootCmd := &cobra.Command{
+	rootCmd := &cobra.Command{ //nolint:exhaustruct
 		Use:   "qsse-test",
 		Short: "stress test for QSSE",
 		Long:  `a service for stress testing QSSE including generator, server, and subscriber.`,
 	}
 
-	err := rootCmd.Execute()
-	if err != nil {
-		os.Exit(1)
-	}
+	rootCmd.AddCommand(
+		serve.Command(),
+	)
+
+	panic(rootCmd.Execute())
 }
