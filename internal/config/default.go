@@ -5,6 +5,7 @@ import (
 	"github.com/mehditeymorian/qsse-test/internal/http"
 	"github.com/mehditeymorian/qsse-test/internal/logger"
 	"github.com/mehditeymorian/qsse-test/internal/qsse"
+	"github.com/mehditeymorian/qsse-test/internal/subscriber"
 )
 
 // Default returns the default configurations.
@@ -32,6 +33,11 @@ func Default() Config {
 			Count:               1,
 			PublishAddress:      "http://localhost:8080/event/publish",
 			Timeout:             5000,
+		},
+		Subscriber: subscriber.Config{
+			Topics:        []string{"topic"},
+			Count:         1,
+			ServerAddress: "http://localhost:4242",
 		},
 	}
 }
