@@ -30,7 +30,7 @@ func Default() Config {
 			},
 			IdenticalGenerators: true,
 			Count:               1,
-			PublishAddress:      "localhost:8080",
+			PublishAddress:      "http://localhost:8080/event/publish",
 			Timeout:             5000,
 		},
 	}
