@@ -1,0 +1,90 @@
+linters:
+  enable-all: true
+linters-settings:
+  nakedret:
+    # Make an issue if func has more lines of code than this setting, and it has naked returns.
+    # Default: 30
+    max-func-lines: 40
+  funlen:
+    lines: 120
+    statements: 50
+  wrapcheck:
+    # An array of strings that specify substrings of signatures to ignore.
+    # If this set, it will override the default set of ignored signatures.
+    # See https://github.com/tomarrell/wrapcheck#configuration for more information.
+    ignoreSigs:
+      - .Errorf(
+      - errors.New(
+      - .Wrap(
+      - .Wrapf(
+      - .WithMessage(
+      - .WithMessagef(
+      - .WithStack(
+      - .SendString(
+      - .Next(
+  revive:
+    rules:
+      # https://github.com/mgechev/revive/blob/master/RULES_DESCRIPTIONS.md#exported
+      - name: exported
+        disabled: true
+  errcheck:
+    # List of functions to exclude from checking, where each entry is a single function to exclude.
+    # See https://github.com/kisielk/errcheck#excluding-functions for details.
+    exclude-functions:
+      - (io.Closer).Close
+
+issues:
+  exclude-rules:
+    - path: _cache\.go
+      linters:
+        - dupl
+    - path: \.go
+      linters:
+        - godox
+        - stylecheck
+        - maligned
+        - gomnd
+        - tagliatelle
+        - gci
+        - exhaustivestruct
+    - path: _test\.go
+      linters:
+        - lll
+        - dupl
+        - funlen
+        - gomnd
+        - maligned
+        - tagliatelle
+        - gci
+        - exhaustivestruct
+
+  exclude-use-default: false
+
+run:
+  issues-exit-code: 1
+
+output:
+# See the dedicated "output" documentation section.
+# format: json
+# print-issued-lines: false
+# Print linter name in the end of issue text.
+# Default: true
+# print-linter-name: false
+# Make issues output unique by line.
+# Default: true
+# uniq-by-line: false
+# Add a prefix to the output file references.
+# Default is no prefix.
+
+severity:
+  # Set the default severity for issues.
+  #
+  # If severity rules are defined and the issues do not match or no severity is provided to the rule
+  # this will be the default severity applied.
+  # Severities should match the supported severity names of the selected out format.
+  # - Code climate: https://docs.codeclimate.com/docs/issues#issue-severity
+  # - Checkstyle: https://checkstyle.sourceforge.io/property_types.html#severity
+  # - GitHub: https://help.github.com/en/actions/reference/workflow-commands-for-github-actions#setting-an-error-message
+  #
+  # Default value is an empty string.
+  default-severity: error
