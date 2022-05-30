@@ -1,6 +1,7 @@
 package config
 
 import (
+	"github.com/mehditeymorian/qsse-test/internal/generator"
 	"github.com/mehditeymorian/qsse-test/internal/http"
 	"github.com/mehditeymorian/qsse-test/internal/logger"
 	"github.com/mehditeymorian/qsse-test/internal/qsse"
@@ -18,6 +19,19 @@ func Default() Config {
 		},
 		Logger: logger.Config{
 			Level: "debug",
+		},
+		Generator: generator.Config{
+			Generators: []generator.EventGenerator{
+				{
+					Topic:     "topic",
+					EventSize: 100,
+					Rate:      500,
+				},
+			},
+			IdenticalGenerators: true,
+			Count:               1,
+			PublishAddress:      "localhost:8080",
+			Timeout:             5000,
 		},
 	}
 }
