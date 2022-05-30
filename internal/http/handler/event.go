@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/mehditeymorian/qsse-test/internal/http/request"
 	"github.com/snapp-incubator/qsse"
 	"go.uber.org/zap"
 )
@@ -20,5 +21,18 @@ func (e Event) Register(app *fiber.App) {
 }
 
 func (e Event) publish(ctx *fiber.Ctx) error {
-	return ctx.SendStatus(http.StatusOK)
+	e.Logger.Info("Received event publish request")
+
+	var req request.Publish
+	if err := ctx.BodyParser(&req); err != nil {
+		e.Logger.Warn("failed to parse request body", zap.Error(err))
+
+		return ctx.Status(http.StatusBadRequest).JSON(err) //nolint:wrapcheck
+	}
+
+	e.Logger.Info("publishing event", zap.String("topic", req.Topic))
+
+	e.Server.Publish(req.Topic, []byte(req.Message))
+
+	return ctx.SendStatus(http.StatusOK) //nolint:wrapcheck
 }
