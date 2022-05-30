@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/gofiber/fiber/v2 v2.34.0
 	github.com/knadh/koanf v1.4.1
-	github.com/snapp-incubator/qsse v1.1.1
+	github.com/snapp-incubator/qsse v1.1.2
 	github.com/spf13/cobra v1.4.0
 	github.com/tidwall/pretty v1.2.0
 	go.uber.org/zap v1.21.0
