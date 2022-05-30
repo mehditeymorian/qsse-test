@@ -15,6 +15,7 @@ import (
 	"github.com/mehditeymorian/qsse-test/internal/http"
 	"github.com/mehditeymorian/qsse-test/internal/logger"
 	"github.com/mehditeymorian/qsse-test/internal/qsse"
+	"github.com/mehditeymorian/qsse-test/internal/subscriber"
 	"github.com/tidwall/pretty"
 )
 
@@ -23,10 +24,11 @@ const Prefix = "QSSETEST"
 
 // Config contains all the configuration for the application.
 type Config struct {
-	HTTP      http.Config      `koanf:"http"`
-	Logger    logger.Config    `koanf:"logger"`
-	QSSE      qsse.Config      `koanf:"qsse"`
-	Generator generator.Config `koanf:"generator"`
+	HTTP       http.Config       `koanf:"http"`
+	Logger     logger.Config     `koanf:"logger"`
+	QSSE       qsse.Config       `koanf:"qsse"`
+	Generator  generator.Config  `koanf:"generator"`
+	Subscriber subscriber.Config `koanf:"subscriber"`
 }
 
 // Load loads the config from default, the given path, and env variables.
