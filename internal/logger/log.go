@@ -40,7 +40,7 @@ func prepLoggerLevel(config *Config) zap.AtomicLevel {
 	return zap.NewAtomicLevelAt(level)
 }
 
-func prepLoggerEncoder() zapcore.Encoder {
+func prepLoggerEncoder() zapcore.Encoder { //nolint:ireturn
 	// The default encoder configs are a console capital color level encoder
 	encoderConfig := zap.NewDevelopmentEncoderConfig()
 	encoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder

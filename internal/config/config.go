@@ -17,34 +17,35 @@ import (
 	"github.com/tidwall/pretty"
 )
 
-const (
-	PREFIX = "QSSETEST"
-)
+// Prefix env variable prefix.
+const Prefix = "QSSETEST"
 
+// Config contains all the configuration for the application.
 type Config struct {
 	HTTP   http.Config   `koanf:"http"`
 	Logger logger.Config `koanf:"logger"`
 	QSSE   qsse.Config   `koanf:"qsse"`
 }
 
+// Load loads the config from default, the given path, and env variables.
 func Load(path string) Config {
 	var cfg Config
 
-	k := koanf.New(".")
+	koan := koanf.New(".")
 
 	// load default configuration
-	if err := k.Load(structs.Provider(Default(), "koanf"), nil); err != nil {
+	if err := koan.Load(structs.Provider(Default(), "koanf"), nil); err != nil {
 		log.Fatalf("error loading default config: %v", err)
 	}
 
 	// load configuration from file
-	if err := k.Load(file.Provider(path), yaml.Parser()); err != nil {
+	if err := koan.Load(file.Provider(path), yaml.Parser()); err != nil {
 		log.Printf("error loading config.yaml: %v", err)
 	}
 
 	// load environment variables
-	cb := func(key string, value string) (string, interface{}) {
-		finalKey := strings.ReplaceAll(strings.ToLower(strings.TrimPrefix(key, PREFIX)), "__", ".")
+	callback := func(key string, value string) (string, interface{}) {
+		finalKey := strings.ReplaceAll(strings.ToLower(strings.TrimPrefix(key, Prefix)), "__", ".")
 
 		if strings.Contains(value, ",") {
 			// remove all the whitespace from value
@@ -56,11 +57,11 @@ func Load(path string) Config {
 
 		return finalKey, value
 	}
-	if err := k.Load(env.ProviderWithValue(PREFIX, ".", cb), nil); err != nil {
+	if err := koan.Load(env.ProviderWithValue(Prefix, ".", callback), nil); err != nil {
 		log.Printf("error loading environment variables: %v", err)
 	}
 
-	if err := k.Unmarshal("", &cfg); err != nil {
+	if err := koan.Unmarshal("", &cfg); err != nil {
 		log.Fatalf("error unmarshaling config: %v", err)
 	}
 
