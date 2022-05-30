@@ -37,7 +37,7 @@ func Default() Config {
 		Subscriber: subscriber.Config{
 			Topics:        []string{"topic"},
 			Count:         1,
-			ServerAddress: "http://localhost:4242",
+			ServerAddress: "localhost:4242",
 		},
 	}
 }
