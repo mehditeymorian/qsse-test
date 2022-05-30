@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/mehditeymorian/qsse-test/internal/cmd/generate"
 	"github.com/mehditeymorian/qsse-test/internal/cmd/serve"
+	"github.com/mehditeymorian/qsse-test/internal/cmd/subscribe"
 	"github.com/spf13/cobra"
 )
 
@@ -17,6 +18,7 @@ func Execute() {
 	rootCmd.AddCommand(
 		serve.Command(),
 		generate.Command(),
+		subscribe.Command(),
 	)
 
 	panic(rootCmd.Execute())
