@@ -11,6 +11,9 @@ import (
 	"github.com/knadh/koanf/providers/env"
 	"github.com/knadh/koanf/providers/file"
 	"github.com/knadh/koanf/providers/structs"
+	"github.com/mehditeymorian/qsse-test/internal/http"
+	"github.com/mehditeymorian/qsse-test/internal/logger"
+	"github.com/mehditeymorian/qsse-test/internal/qsse"
 	"github.com/tidwall/pretty"
 )
 
@@ -19,6 +22,9 @@ const (
 )
 
 type Config struct {
+	HTTP   http.Config   `koanf:"http"`
+	Logger logger.Config `koanf:"logger"`
+	QSSE   qsse.Config   `koanf:"qsse"`
 }
 
 func Load(path string) Config {
