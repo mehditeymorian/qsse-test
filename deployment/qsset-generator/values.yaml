@@ -1,0 +1,69 @@
+replicaCount: 1
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+podAnnotations: {}
+
+image:
+  registry: REGISTRY
+  repository: REPO
+  pullPolicy: Always
+  tag: "latest"
+
+ingress:
+  enabled: false
+
+service:
+  type: None
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+
+config:
+  http:
+    port: 8080
+  qsse:
+    topics:
+      - "topic"
+    port: 4242
+  logger:
+    level: "debug"
+  generator:
+    generators:
+      - topic: "topic"
+        event_size: 100
+        rate: 500
+      - topic: "people"
+        event_size: 500
+        rate: 200
+    identical_generators: false
+    count: 3
+    publish_address: "http://qsset-server-http:8080/event/publish"
+    timeout: 1000
+#  subscriber:
+#    topics:
+#      - "topic"
+#      - "people"
+#    count: 2
+#    server_address: "localhost:4242"
