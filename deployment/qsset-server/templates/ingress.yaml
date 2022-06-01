@@ -1,0 +1,26 @@
+---
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "qsset-server.fullname" . -}}
+{{- $labels := include "qsset-server.labels" . -}}
+{{- $svcPort := .Values.service.port -}}
+
+{{- range .Values.ingress.hosts }}
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: {{ $fullName }}-{{ .name }}
+  labels:
+    router: {{ .router }}
+    {{- $labels | nindent 4 }}
+spec:
+  host: {{ .host | quote }}
+  port:
+    targetPort: {{ $svcPort }}
+  to:
+    kind: Service
+    name: {{ $fullName }}
+    weight: 100
+  wildcardPolicy: None
+{{- end }}
+{{- end }}

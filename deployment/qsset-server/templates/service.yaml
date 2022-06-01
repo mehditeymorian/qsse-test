@@ -1,0 +1,20 @@
+{{- range $key, $value := .Values.service.ports }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "qsset-server.fullname" $ }}-{{$value.name}}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "qsset-server.labels" $ | nindent 4 }}
+spec:
+  type: {{ $.Values.service.type }}
+  ports:
+    - name: {{ $value.name }}
+      protocol: {{ $value.protocol | upper }}
+      port: {{ $value.port }}
+      targetPort: {{ $value.port }}
+  selector:
+    {{- include "qsset-server.selectorLabels" $ | nindent 4 }}
+
+{{ end }}
