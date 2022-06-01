@@ -1,0 +1,26 @@
+http:
+  port: 8080
+qsse:
+  topics:
+    - "topic"
+  port: 4242
+logger:
+  level: "debug"
+generator:
+  generators:
+    - topic: "topic"
+      event_size: 100
+      rate: 500
+    - topic: "people"
+      event_size: 500
+      rate: 200
+  identical_generators: false
+  count: 3
+  publish_address: "http://localhost:8080/event/publish"
+  timeout: 1000
+subscriber:
+  topics:
+    - "topic"
+    - "people"
+  count: 2
+  server_address: "localhost:4242"
