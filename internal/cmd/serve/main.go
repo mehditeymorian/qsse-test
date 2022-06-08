@@ -31,7 +31,16 @@ func run(_ *cobra.Command, _ []string) {
 
 	app := fiber.New()
 
-	server, err := qsse.NewServer(":"+strconv.Itoa(cfg.QSSE.Port), qsse.GetDefaultTLSConfig(), cfg.QSSE.Topics)
+	serverConfig := &qsse.ServerConfig{
+		Metric: &qsse.MetricConfig{
+			Enabled:   true,
+			NameSpace: "qsset",
+			Port:      "" + strconv.Itoa(cfg.HTTP.Port),
+		},
+		TLSConfig: qsse.GetDefaultTLSConfig(),
+	}
+
+	server, err := qsse.NewServer(":"+strconv.Itoa(cfg.QSSE.Port), cfg.QSSE.Topics, serverConfig)
 	if err != nil {
 		log.Fatal("failed to run qsse server", zap.Error(err))
 	}
