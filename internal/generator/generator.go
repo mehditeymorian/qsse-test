@@ -34,16 +34,16 @@ func (g Generator) Generate(cfg Config) {
 	} else {
 		for _, generator := range cfg.Generators {
 			go g.generateEvents(generator.Topic, generator.Rate, generator.EventSize)
+			g.WaitGroup.Add(1)
 			g.Logger.Info("created generator", zap.String("topic", generator.Topic))
 		}
 	}
 
 	g.WaitGroup.Wait()
+	g.Logger.Fatal("all generators failed")
 }
 
 func (g Generator) generateEvents(topic string, rate, eventSize int) {
-	g.WaitGroup.Add(1)
-
 	for {
 		req := request.Publish{
 			Topic:   topic,
