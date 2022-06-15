@@ -3,6 +3,7 @@ package serve
 import (
 	"strconv"
 
+	"github.com/gofiber/adaptor/v2"
 	"github.com/gofiber/fiber/v2"
 	"github.com/mehditeymorian/qsse-test/internal/config"
 	"github.com/mehditeymorian/qsse-test/internal/http/handler"
@@ -33,9 +34,7 @@ func run(_ *cobra.Command, _ []string) {
 
 	serverConfig := &qsse.ServerConfig{
 		Metric: &qsse.MetricConfig{
-			Enabled:   true,
 			NameSpace: "qsset",
-			Port:      "" + strconv.Itoa(cfg.HTTP.Port),
 		},
 		TLSConfig: qsse.GetDefaultTLSConfig(),
 	}
@@ -49,6 +48,8 @@ func run(_ *cobra.Command, _ []string) {
 		Server: server,
 		Logger: log,
 	}.Register(app)
+
+	app.Get("/metrics", adaptor.HTTPHandler(server.MetricHandler()))
 
 	panic(app.Listen(":" + strconv.Itoa(cfg.HTTP.Port)))
 }
