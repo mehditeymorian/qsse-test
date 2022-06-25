@@ -11,6 +11,7 @@ type Subscriber struct {
 	WaitGroup     *sync.WaitGroup
 	Logger        *zap.Logger
 	ServerAddress string
+	Metric        Metrics
 }
 
 func (s Subscriber) Subscribe(cfg Config) {
@@ -23,7 +24,9 @@ func (s Subscriber) Subscribe(cfg Config) {
 	s.Logger.Fatal("all subscribers failed")
 }
 
-func (s Subscriber) subscribeClient(clientID int, topics []string) {
+func (s *Subscriber) subscribeClient(clientID int, topics []string) {
+	defer s.Metric.DecSubscriber("subscriber")
+
 	client, err := qsse.NewClient(s.ServerAddress, topics, nil)
 	if err != nil {
 		s.Logger.Warn("failed to create client", zap.Error(err))
@@ -31,6 +34,7 @@ func (s Subscriber) subscribeClient(clientID int, topics []string) {
 
 		return
 	}
+	s.Metric.IncSubscriber("subscriber")
 
 	client.SetMessageHandler(func(topic string, _ []byte) {
 		s.Logger.Info("new event received", zap.String("topic", topic), zap.Int("client_id", clientID))
