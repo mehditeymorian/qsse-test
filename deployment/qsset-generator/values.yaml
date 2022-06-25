@@ -20,10 +20,10 @@ service:
 
 resources:
   limits:
-    cpu: 100m
+    cpu: 150m
     memory: 128Mi
   requests:
-    cpu: 100m
+    cpu: 150m
     memory: 128Mi
 
 autoscaling:
@@ -44,19 +44,24 @@ config:
   http:
     port: 8080
   qsse:
-    topics:
-      - "topic"
+    topics: ["t1", "t2", "t3", "t4"]
     port: 4242
   logger:
     level: "debug"
   generator:
     generators:
-      - topic: "topic"
+      - topic: "t1"
         event_size: 100
-        rate: 500
-      - topic: "people"
-        event_size: 500
         rate: 200
+      - topic: "t2"
+        event_size: 500
+        rate: 500
+      - topic: "t3"
+        event_size: 1000
+        rate: 1000
+      - topic: "t4"
+        event_size: 2000
+        rate: 500
     identical_generators: false
     count: 3
     publish_address: "http://qsset-server-http:8080/event/publish"

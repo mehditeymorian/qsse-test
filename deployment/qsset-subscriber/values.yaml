@@ -1,4 +1,4 @@
-replicaCount: 1
+replicaCount: 10
 
 imagePullSecrets: []
 nameOverride: ""
@@ -16,16 +16,23 @@ ingress:
   enabled: false
 
 service:
-  type: None
+  type: LoadBalancer
+  port: 8080 # ingress port
+  ports:
+    - name: http
+      port: 8080
+      protocol: tcp
 
+serviceMonitor:
+  enabled: true
 
 resources:
   limits:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 300m
+    memory: 100Mi
   requests:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 300m
+    memory: 100Mi
 
 autoscaling:
   enabled: false
@@ -62,8 +69,6 @@ config:
 #    publish_address: "http://localhost:8080/event/publish"
 #    timeout: 1000
   subscriber:
-    topics:
-      - "topic"
-      - "people"
-    count: 2
+    topics: ["t1", "t2", "t3", "t4"]
+    count: 100
     server_address: "qsset-server-quic:4242"

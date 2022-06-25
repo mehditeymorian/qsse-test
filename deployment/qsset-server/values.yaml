@@ -1,4 +1,4 @@
-replicaCount: 1
+replicaCount: 2
 
 imagePullSecrets: []
 nameOverride: ""
@@ -11,6 +11,14 @@ image:
   repository: REPONAME
   pullPolicy: Always
   tag: "latest"
+
+serviceMonitor:
+  enabled: true
+
+podSecurityContext:
+  sysctls:
+      - name: net.core.somaxconn
+        value: "32768"
 
 service:
   type: LoadBalancer
@@ -32,11 +40,11 @@ ingress:
 
 resources:
    limits:
-     cpu: 100m
-     memory: 128Mi
+     cpu: 1500m
+     memory: 1024Mi
    requests:
-     cpu: 100m
-     memory: 128Mi
+     cpu: 1500m
+     memory: 512Mi
 
 autoscaling:
   enabled: false
@@ -55,9 +63,13 @@ config:
   http:
     port: 8080
   qsse:
-    topics:
-      - "topic"
+    topics: ["t1", "t2", "t3", "t4"]
     port: 4242
+    client_acceptor_count: 4
+    client_acceptor_queue_size: 4
+    event_distributor_count: 10
+    event_distributor_queue_size: 10
+    cleaning_interval: 2
   logger:
     level: "debug"
 #  generator:
