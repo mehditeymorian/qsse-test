@@ -2,6 +2,7 @@ package serve
 
 import (
 	"strconv"
+	"time"
 
 	"github.com/gofiber/adaptor/v2"
 	"github.com/gofiber/fiber/v2"
@@ -37,6 +38,13 @@ func run(_ *cobra.Command, _ []string) {
 			NameSpace: "qsset",
 		},
 		TLSConfig: qsse.GetDefaultTLSConfig(),
+		Worker: &qsse.WorkerConfig{
+			CleaningInterval:          time.Duration(cfg.QSSE.CleaningInterval) * time.Second,
+			ClientAcceptorCount:       int64(cfg.QSSE.ClientAcceptorCount),
+			ClientAcceptorQueueSize:   cfg.QSSE.ClientAcceptorQueueSize,
+			EventDistributorCount:     int64(cfg.QSSE.EventDistributorCount),
+			EventDistributorQueueSize: cfg.QSSE.EventDistributorQueueSize,
+		},
 	}
 
 	server, err := qsse.NewServer(":"+strconv.Itoa(cfg.QSSE.Port), cfg.QSSE.Topics, serverConfig)
