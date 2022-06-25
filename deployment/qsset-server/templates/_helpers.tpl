@@ -40,6 +40,7 @@ helm.sh/chart: {{ include "qsset-server.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+label_app: {{.Chart.Name}}
 {{- end }}
 
 {{/*
@@ -48,4 +49,5 @@ Selector labels
 {{- define "qsset-server.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "qsset-server.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+label_app: {{.Chart.Name}}
 {{- end }}
