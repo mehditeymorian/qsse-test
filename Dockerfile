@@ -9,6 +9,7 @@ COPY cmd .
 COPY main.go .
 
 RUN go mod download
+RUN go mod tidy
 
 
 RUN go build -o /qsse-test main.go
