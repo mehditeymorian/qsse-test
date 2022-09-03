@@ -6,7 +6,8 @@ require (
 	github.com/gofiber/adaptor/v2 v2.1.24
 	github.com/gofiber/fiber/v2 v2.34.0
 	github.com/knadh/koanf v1.4.1
-	github.com/snapp-incubator/qsse v1.2.0-beta
+	github.com/prometheus/client_golang v1.12.2
+	github.com/snapp-incubator/qsse v1.2.0
 	github.com/spf13/cobra v1.4.0
 	github.com/tidwall/pretty v1.2.0
 	go.uber.org/automaxprocs v1.5.1
@@ -38,7 +39,6 @@ require (
 	github.com/nxadm/tail v1.4.8 // indirect
 	github.com/onsi/ginkgo v1.16.4 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/prometheus/client_golang v1.12.2 // indirect
 	github.com/prometheus/client_model v0.2.0 // indirect
 	github.com/prometheus/common v0.32.1 // indirect
 	github.com/prometheus/procfs v0.7.3 // indirect
