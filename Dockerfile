@@ -4,14 +4,11 @@ WORKDIR /app
 
 COPY go.mod .
 COPY go.sum .
-COPY internal .
-COPY cmd .
+COPY internal ./internal
+COPY cmd ./cmd
 COPY main.go .
 
-RUN ls -l
-
 RUN go mod download
-RUN go mod tidy
 
 
 RUN go build -o /qsse-test main.go
