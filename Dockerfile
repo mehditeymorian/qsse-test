@@ -11,18 +11,18 @@ COPY internal .
 COPY cmd .
 COPY main.go .
 
-RUN go build main.go -o /main
+RUN go build -o /qsse-test
 
 FROM alpine:latest
 
 WORKDIR /app
 
-COPY --from=BUILDER /main .
+COPY --from=BUILDER /qsse-test .
 
 EXPOSE 8080
 EXPOSE 4242
 
-ENTRYPOINT ["./main"]
+ENTRYPOINT ["./qsse-test"]
 
 
 
