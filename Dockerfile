@@ -8,6 +8,8 @@ COPY internal .
 COPY cmd .
 COPY main.go .
 
+RUN ls -l
+
 RUN go mod download
 RUN go mod tidy
 
