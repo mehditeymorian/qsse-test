@@ -35,7 +35,7 @@ func run(_ *cobra.Command, _ []string) {
 
 	serverConfig := &qsse.ServerConfig{
 		Metric: &qsse.MetricConfig{
-			NameSpace: "qsset",
+			Namespace: "qsset",
 		},
 		TLSConfig: qsse.GetDefaultTLSConfig(),
 		Worker: &qsse.WorkerConfig{
