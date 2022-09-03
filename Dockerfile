@@ -4,14 +4,14 @@ WORKDIR /app
 
 COPY go.mod .
 COPY go.sum .
-
-RUN go mod download
-
 COPY internal .
 COPY cmd .
 COPY main.go .
 
-RUN go build -o /qsse-test
+RUN go mod download
+
+
+RUN go build main.go -o /qsse-test
 
 FROM alpine:latest
 
