@@ -11,7 +11,7 @@ COPY main.go .
 RUN go mod download
 
 
-RUN go build main.go -o /qsse-test
+RUN go build -o /qsse-test main.go
 
 FROM alpine:latest
 
